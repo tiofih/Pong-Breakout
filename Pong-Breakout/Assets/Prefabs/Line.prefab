@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 61269691240083168}
   m_Layer: 0
   m_Name: Tile
-  m_TagString: Player
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 61132376414960890}
   m_Layer: 0
   m_Name: Tile (1)
-  m_TagString: Player
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 61703655894230198}
   m_Layer: 0
   m_Name: Tile (2)
-  m_TagString: Player
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

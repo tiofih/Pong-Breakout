@@ -6,22 +6,27 @@ using System;
 public class PadManager : MonoBehaviour
 {
 
-    public float minDist = 1f;
-    public KeyCode upKey;
-    public KeyCode downKey;
-    public KeyCode rightKey;
-    public KeyCode leftKey;
-    public KeyCode confirmKey;
-    public GameObject linePrefab;
-    private GameObject line;
-    private LineScript lineScript;
-    private float speed;
-    private float maxY = 2f;
-    private float minY = -2f;
-    private float maxX;
-    private float minX;
-    private Vector2 collSize;
-    private Vector2 lineCollSize;
+    [SerializeField]
+    private KeyCode _upKey;
+    [SerializeField]
+    private KeyCode _downKey;
+    [SerializeField]
+    private KeyCode _rightKey;
+    [SerializeField]
+    private KeyCode _leftKey;
+    [SerializeField]
+    private KeyCode _confirmKey;
+    [SerializeField]
+    private GameObject _linePrefab;
+    private GameObject _line;
+    private LineScript _lineScript;
+    private float _speed;
+    private float _maxY = 2f;
+    private float _minY = -2f;
+    private float _maxX;
+    private float _minX;
+    private Vector2 _collSize;
+    private Vector2 _lineCollSize;
 
     private void OnEnable()
     {
@@ -32,30 +37,30 @@ public class PadManager : MonoBehaviour
 
     private void Awake()
     {
-        speed = GameManager.Instance.padSpeed;
-        maxY = GameManager.Instance.maxY;
-        minY = GameManager.Instance.minY;
-        maxX = GameManager.Instance.maxX;
-        minX = GameManager.Instance.minX;
-        collSize = GetComponent<BoxCollider2D>().size;
+        _speed = GameManager.Instance.PadSpeed;
+        _maxY = GameManager.Instance.MaxY;
+        _minY = GameManager.Instance.MinY;
+        _maxX = GameManager.Instance.MaxX;
+        _minX = GameManager.Instance.MinX;
+        _collSize = GetComponent<BoxCollider2D>().size;
     }
 
     private void MovePad(object e, EventArgs a)
     {
-        if (Input.GetKey(upKey))
+        if (Input.GetKey(_upKey))
         {
-            transform.Translate(Vector3.up * speed * Time.deltaTime, Space.World);
+            transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.World);
         }
-        if (Input.GetKey(downKey))
+        if (Input.GetKey(_downKey))
         {
-            transform.Translate(Vector3.down * speed * Time.deltaTime, Space.World);
+            transform.Translate(Vector3.down * _speed * Time.deltaTime, Space.World);
         }
     }
 
     private void ClampPad(object e, EventArgs a)
     {
 
-        var clampY = Mathf.Clamp(transform.position.y, minY + (collSize.y / 2), maxY - (collSize.y / 2));
+        var clampY = Mathf.Clamp(transform.position.y, _minY + (_collSize.y / 2), _maxY - (_collSize.y / 2));
         var clampVector = new Vector3(transform.position.x,
                                      clampY,
                                      transform.position.z);
@@ -64,63 +69,63 @@ public class PadManager : MonoBehaviour
 
     private void MoveAndPlaceLine(object e, EventArgs a)
     {
-        if (line == null)
+        if (_line == null)
         {
-            if (Input.GetKeyDown(confirmKey))
+            if (Input.GetKeyDown(_confirmKey))
             {
-                line = Instantiate(linePrefab);
-                lineScript = line.GetComponent<LineScript>();
-                line.transform.position = Vector3.zero;
-                lineCollSize = line.GetComponent<BoxCollider2D>().size;
+                _line = Instantiate(_linePrefab);
+                _lineScript = _line.GetComponent<LineScript>();
+                _line.transform.position = Vector3.zero;
+                _lineCollSize = _line.GetComponent<BoxCollider2D>().size;
             }
         }
-        else if (line != null)
+        else if (_line != null)
         {
             int x = 0;
             int y = 0;
-            if (Input.GetKey(upKey))
+            if (Input.GetKey(_upKey))
             {
                 y = 1;
             }
-            if (Input.GetKey(downKey))
+            if (Input.GetKey(_downKey))
             {
                 y = -1;
             }
-            if (Input.GetKey(rightKey))
+            if (Input.GetKey(_rightKey))
             {
                 x = 1;
             }
-            if (Input.GetKey(leftKey))
+            if (Input.GetKey(_leftKey))
             {
                 x = -1;
             }
-            lineScript.MoveLine(x, y);
+            _lineScript.MoveLine(x, y);
 
-            if (Input.GetKeyDown(confirmKey))
+            if (Input.GetKeyDown(_confirmKey))
             {
-                if (lineScript.canStay)
+                if (_lineScript.canStay)
                 {
-                    Destroy(lineScript.rb);
-                    Destroy(lineScript.col);
-                    lineScript = null;
-                    line = null;
+                    Destroy(_lineScript.rb);
+                    Destroy(_lineScript.col);
+                    _lineScript = null;
+                    _line = null;
                 }
             }
-            if (line != null)
+            if (_line != null)
             {
                 var clampLineX = 0f;
                 if (this.CompareTag("Player 1"))
                 {
-                    clampLineX = Mathf.Clamp(line.transform.position.x, minX, 0);
+                    clampLineX = Mathf.Clamp(_line.transform.position.x, _minX, 0);
 
                 }
                 else if (this.CompareTag("Player 2"))
                 {
-                    clampLineX = Mathf.Clamp(line.transform.position.x, 0, maxX - (collSize.x / 2));
+                    clampLineX = Mathf.Clamp(_line.transform.position.x, 0, _maxX - (_collSize.x / 2));
                 }
-                var clampLineY = Mathf.Clamp(line.transform.position.y, minY + (lineCollSize.y / 2), maxY - (lineCollSize.y / 2));
+                var clampLineY = Mathf.Clamp(_line.transform.position.y, _minY + (_lineCollSize.y / 2), _maxY - (_lineCollSize.y / 2));
                 var clampLineVector = new Vector3(clampLineX, clampLineY, 0f);
-                line.transform.position = clampLineVector;
+                _line.transform.position = clampLineVector;
             }
         }
     }
