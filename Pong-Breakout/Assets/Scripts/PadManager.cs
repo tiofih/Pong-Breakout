@@ -21,8 +21,8 @@ public class PadManager : MonoBehaviour
     private GameObject _line;
     private LineScript _lineScript;
     private float _speed;
-    private float _maxY = 2f;
-    private float _minY = -2f;
+    private float _maxY;
+    private float _minY;
     private float _maxX;
     private float _minX;
     private Vector2 _collSize;
@@ -75,6 +75,7 @@ public class PadManager : MonoBehaviour
             {
                 _line = Instantiate(_linePrefab);
                 _lineScript = _line.GetComponent<LineScript>();
+
                 _line.transform.position = Vector3.zero;
                 _lineCollSize = _line.GetComponent<BoxCollider2D>().size;
             }
@@ -105,8 +106,12 @@ public class PadManager : MonoBehaviour
             {
                 if (_lineScript.canStay)
                 {
+                    Tile[] tiles = _lineScript.GetComponentsInChildren<Tile>();
+                    foreach (Tile tile in tiles)
+                    {
+                        tile.ActiveCollider();
+                    }
                     Destroy(_lineScript.rb);
-                    Destroy(_lineScript.col);
                     _lineScript = null;
                     _line = null;
                 }

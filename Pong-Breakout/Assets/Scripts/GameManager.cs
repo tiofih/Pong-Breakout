@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : Singleton<GameManager>
@@ -13,12 +14,20 @@ public class GameManager : Singleton<GameManager>
     private float _minX = -3.2f;
     private float _maxY = 2f;
     private float _minY = -2f;
+    private float _player1Super = 0f;
+    private float _player2Super = 0f;
+    private float _maxPlayer1Super = 5f;
+    private float _maxPlayer2Super = 5f;
     private int _player1Score = 0;
     private int _player2Score = 0;
     [SerializeField]
     private TMP_Text _player1Text;
     [SerializeField]
     private TMP_Text _player2Text;
+    [SerializeField]
+    private Slider _player1Slider;
+    [SerializeField]
+    private Slider _player2Slider;
 
     public float PadSpeed { get { return _padSpeed; } private set { PadSpeed = _padSpeed; } }
     public float MaxX { get { return _maxX; } private set { MaxX = _maxX; } }
@@ -27,6 +36,24 @@ public class GameManager : Singleton<GameManager>
     public float MinY { get { return _minY; } private set { MinY = _minY; } }
     public int Player1Score { get { return _player1Score; } private set { Player1Score = _player1Score; } }
     public int Player2Score { get { return _player2Score; } private set { Player2Score = _player2Score; } }
+    public float Player1Super
+    {
+        get { return _player1Score; }
+        private set
+        {
+            if (_player1Super > 0) { Player1Super = _player1Super; }
+            else { Player1Super = 0; }
+        }
+    }
+    public float Player2Super
+    {
+        get { return _player1Score; }
+        private set
+        {
+            if (_player2Super > 0) { Player2Super = _player2Super; }
+            else { Player2Super = 0; }
+        }
+    }
 
     #endregion
 
@@ -38,6 +65,15 @@ public class GameManager : Singleton<GameManager>
     {
         if (playingGameDelegate != null)
             playingGameDelegate(this, EventArgs.Empty);
+    }
+
+    #endregion
+
+    #region UnityFunctions
+
+    private void Update()
+    {
+        OnPlaying();
     }
 
     #endregion
@@ -60,16 +96,40 @@ public class GameManager : Singleton<GameManager>
         _player1Text.text = Player1Score.ToString();
         _player2Text.text = Player2Score.ToString();
     }
-    #endregion
 
-    #region UnityFunctions
-
-    private void Update()
+    public void SumSuper(string player, float amount)
     {
-        OnPlaying();
+        if (player == "Player 1")
+        {
+            if (_player1Super < _maxPlayer1Super)
+            {
+                _player1Super += amount;
+            }
+            if (_player1Super > _maxPlayer1Super)
+            {
+                _player1Super = _maxPlayer1Super;
+            }
+        }
+        else if (player == "Player 2")
+        {
+            if (_player2Super < _maxPlayer2Super)
+            {
+                _player2Super += amount;
+            }
+
+            if (_player2Super > _maxPlayer2Super)
+            {
+                _player2Super = _maxPlayer2Super;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Invalid player name");
+        }
+        _player1Slider.value = _player1Super;
+        _player2Slider.value = _player2Super;
     }
-
     #endregion
-}
 
-public enum lastPlayer { p1, p2 }
+
+}

@@ -26,19 +26,19 @@ public class LineScript : MonoBehaviour
     {
         if (x > 0)
         {
-            transform.position += Vector3.right * Time.deltaTime;
+            transform.position += Vector3.right * Time.deltaTime * GameManager.Instance.PadSpeed;
         }
         if (x < 0)
         {
-            transform.position += Vector3.left * Time.deltaTime;
+            transform.position += Vector3.left * Time.deltaTime * GameManager.Instance.PadSpeed;
         }
         if (y > 0)
         {
-            transform.position += Vector3.up * Time.deltaTime;
+            transform.position += Vector3.up * Time.deltaTime * GameManager.Instance.PadSpeed;
         }
         if (y < 0)
         {
-            transform.position += Vector3.down * Time.deltaTime;
+            transform.position += Vector3.down * Time.deltaTime * GameManager.Instance.PadSpeed;
         }
     }
 
@@ -58,6 +58,4 @@ public class LineScript : MonoBehaviour
         }
 
     }
-
-
 }
