@@ -5,15 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : PSingleton<GameManager>
 {
     #region Variables
     protected GameManager() { }
-    private float _padSpeed = 5f;
-    private float _maxX = 3.2f;
-    private float _minX = -3.2f;
-    private float _maxY = 2f;
-    private float _minY = -2f;
     private float _player1Super = 0f;
     private float _player2Super = 0f;
     private float _maxPlayer1Super = 5f;
@@ -29,11 +24,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     private Slider _player2Slider;
 
-    public float PadSpeed { get { return _padSpeed; } private set { PadSpeed = _padSpeed; } }
-    public float MaxX { get { return _maxX; } private set { MaxX = _maxX; } }
-    public float MinX { get { return _minX; } private set { MinX = _minX; } }
-    public float MaxY { get { return _maxY; } private set { MaxY = _maxY; } }
-    public float MinY { get { return _minY; } private set { MinY = _minY; } }
     public int Player1Score { get { return _player1Score; } private set { Player1Score = _player1Score; } }
     public int Player2Score { get { return _player2Score; } private set { Player2Score = _player2Score; } }
     public float Player1Super

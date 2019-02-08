@@ -26,10 +26,10 @@ public class BallScript : MonoBehaviour
     private void Start()
     {
         _fixAngle = UnityEngine.Random.Range(0, 1f);
-        _maxX = GameManager.Instance.MaxX;
-        _minX = GameManager.Instance.MinX;
-        _maxY = GameManager.Instance.MaxY;
-        _minY = GameManager.Instance.MinY;
+        _maxX = PUnits.MaxX;
+        _minX = PUnits.MinX;
+        _maxY = PUnits.MaxY;
+        _minY = PUnits.MinY;
     }
 
     private void OnCollisionEnter2D(Collision2D other)

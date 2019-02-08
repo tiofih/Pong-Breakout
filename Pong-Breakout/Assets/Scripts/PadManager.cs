@@ -37,11 +37,11 @@ public class PadManager : MonoBehaviour
 
     private void Awake()
     {
-        _speed = GameManager.Instance.PadSpeed;
-        _maxY = GameManager.Instance.MaxY;
-        _minY = GameManager.Instance.MinY;
-        _maxX = GameManager.Instance.MaxX;
-        _minX = GameManager.Instance.MinX;
+        _speed = PUnits.PadSpeed;
+        _maxY = PUnits.MaxY;
+        _minY = PUnits.MinY;
+        _maxX = PUnits.MaxX;
+        _minX = PUnits.MinX;
         _collSize = GetComponent<BoxCollider2D>().size;
     }
 

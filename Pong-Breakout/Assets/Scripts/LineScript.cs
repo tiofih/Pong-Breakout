@@ -26,19 +26,19 @@ public class LineScript : MonoBehaviour
     {
         if (x > 0)
         {
-            transform.position += Vector3.right * Time.deltaTime * GameManager.Instance.PadSpeed;
+            transform.position += Vector3.right * Time.deltaTime * PUnits.PadSpeed;
         }
         if (x < 0)
         {
-            transform.position += Vector3.left * Time.deltaTime * GameManager.Instance.PadSpeed;
+            transform.position += Vector3.left * Time.deltaTime * PUnits.PadSpeed;
         }
         if (y > 0)
         {
-            transform.position += Vector3.up * Time.deltaTime * GameManager.Instance.PadSpeed;
+            transform.position += Vector3.up * Time.deltaTime * PUnits.PadSpeed;
         }
         if (y < 0)
         {
-            transform.position += Vector3.down * Time.deltaTime * GameManager.Instance.PadSpeed;
+            transform.position += Vector3.down * Time.deltaTime * PUnits.PadSpeed;
         }
     }
 
