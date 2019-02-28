@@ -9,6 +9,7 @@ TagManager:
   - Player 2
   - Tile
   - Ball
+  - Pad
   layers:
   - Default
   - TransparentFX
