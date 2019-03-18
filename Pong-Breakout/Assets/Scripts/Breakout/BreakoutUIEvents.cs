@@ -5,51 +5,68 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class PongUIEvents : MonoBehaviour
+public class BreakoutUIEvents : MonoBehaviour
 {
-    [SerializeField] private TMP_Text p1;
-    [SerializeField] private TMP_Text p2;
+    [SerializeField] private TMP_Text pointsText;
+    [SerializeField] private TMP_Text ballsText;
+
     [SerializeField] private Animator pauseText;
     [SerializeField] private Animator pausePanel;
     [SerializeField] private Animator pauseButton;
     [SerializeField] private Animator transitionPanel;
-    [SerializeField] private AudioSource crowdAudioSource;
+
     [SerializeField] private AudioSource clickAudioSource;
 
     [SerializeField] private Timer timer;
 
-    private int p1Points;
-    private int p2Points;
+    private int points;
+    private int balls = 3;
 
     private void Start()
     {
-        PlayerPoints.OnBallGoal += UpdateHud;
         Timer.OnReset += ResetUI;
         Timer.OnTimerEnd += PauseGame;
         Timer.OnTimerEnd += EndGame;
+        BreakoutPlayerPoints.OnBallLose += SubtractBall;
+        Tile.OnTileDestroyed += AddPoints;
+        UpdateHud();
     }
 
-    private void UpdateHud(string player)
+    private void UpdateHud()
     {
-        if (player == "Player 1")
-        {
-            p1Points++;
-            p1.SetText(p1Points.ToString());
-        }
+        pointsText.text = points.ToString();
+        ballsText.text = balls.ToString();
+    }
 
-        if (player == "Player 2")
+    private void AddPoints()
+    {
+        points++;
+        UpdateHud();
+    }
+
+    private void AddBall()
+    {
+        balls++;
+        UpdateHud();
+    }
+
+    private void SubtractBall()
+    {
+        if (balls > 0)
         {
-            p2Points++;
-            p2.SetText(p2Points.ToString());
+            balls--;
+            UpdateHud();
+        }
+        else
+        {
+            EndGame();
+            PauseGame();
         }
     }
 
     private void ResetUI()
     {
-        p1Points = 0;
-        p1.SetText(p1Points.ToString());
-        p2Points = 0;
-        p2.SetText(p2Points.ToString());
+        points = 0;
         var newText = pauseText.GetComponent<TMP_Text>();
         newText.text = "Paused";
     }
@@ -65,7 +82,6 @@ public class PongUIEvents : MonoBehaviour
         pauseText.SetBool("IsInScene", false);
         pausePanel.SetBool("IsInScene", false);
         pauseButton.SetBool("IsInScene", true);
-        crowdAudioSource.Play();
         clickAudioSource.Play();
     }
 
@@ -81,7 +97,6 @@ public class PongUIEvents : MonoBehaviour
         pauseText.SetBool("IsInScene", true);
         pausePanel.SetBool("IsInScene", true);
         pauseButton.SetBool("IsInScene", false);
-        crowdAudioSource.Pause();
         clickAudioSource.Play();
     }
 
@@ -106,7 +121,6 @@ public class PongUIEvents : MonoBehaviour
 
     private void OnDestroy()
     {
-        PlayerPoints.OnBallGoal -= UpdateHud;
         Timer.OnReset -= ResetUI;
         Timer.OnTimerEnd -= PauseGame;
         Timer.OnTimerEnd -= EndGame;

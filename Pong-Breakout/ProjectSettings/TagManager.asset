@@ -10,6 +10,7 @@ TagManager:
   - Tile
   - Ball
   - Pad
+  - Special
   layers:
   - Default
   - TransparentFX

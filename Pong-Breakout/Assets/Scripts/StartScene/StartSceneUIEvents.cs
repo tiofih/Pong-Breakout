@@ -14,7 +14,6 @@ public class StartSceneUIEvents : MonoBehaviour
 
     public void ToPongScene()
     {
-        OnClickEvent();
         audioSource.Play();
         transitionPanel.SetBool("IsInScene", true);
         SceneManager.LoadScene("PongScene");

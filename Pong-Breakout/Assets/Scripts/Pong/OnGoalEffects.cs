@@ -10,9 +10,9 @@ public class OnGoalEffects : MonoBehaviour
 
     private void Awake()
     {
-        Ball.OnBallGoal += PlayAllParticles;
-        Ball.OnBallGoal += ChangePitchAndPlayAudio;
-        Ball.OnBallGoal += ShakeCameraWheGoal;
+        PlayerPoints.OnBallGoal += PlayAllParticles;
+        PlayerPoints.OnBallGoal += PlayAudio;
+        PlayerPoints.OnBallGoal += ShakeCameraWheGoal;
     }
 
     private void PlayAllParticles(string something = null)
@@ -23,7 +23,7 @@ public class OnGoalEffects : MonoBehaviour
         }
     }
 
-    private void ChangePitchAndPlayAudio(string something = null)
+    private void PlayAudio(string something = null)
     {
         for (int i = 0; i < audioSource.Length; i++)
         {
@@ -34,6 +34,13 @@ public class OnGoalEffects : MonoBehaviour
     private void ShakeCameraWheGoal(string something = null)
     {
         CameraShake.Shake(1f, 2f);
+    }
+
+    private void OnDestroy()
+    {
+        PlayerPoints.OnBallGoal -= PlayAllParticles;
+        PlayerPoints.OnBallGoal -= PlayAudio;
+        PlayerPoints.OnBallGoal -= ShakeCameraWheGoal;
     }
 
 

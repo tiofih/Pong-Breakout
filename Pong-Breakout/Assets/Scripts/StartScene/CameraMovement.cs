@@ -42,9 +42,14 @@ public class CameraMovement : MonoBehaviour
 
     private IEnumerator ChangeCameraSpeedCoroutine()
     {
-        speed = 10f;
-        yield return new WaitForSecondsRealtime(.5f);
+        speed = 180f;
+        yield return new WaitForSecondsRealtime(1f);
         speed = 1f;
+    }
+
+    private void OnDestroy()
+    {
+        StartSceneUIEvents.OnClickEvent -= ChangeCameraSpeed;
     }
 
 }

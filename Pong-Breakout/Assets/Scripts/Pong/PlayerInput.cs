@@ -29,4 +29,9 @@ public class PlayerInput : MonoBehaviour
             }
         }
     }
+
+    private void OnDestroy()
+    {
+        Timer.OnTimerOn -= GetInputs;
+    }
 }

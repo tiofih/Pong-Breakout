@@ -7,6 +7,7 @@ using TMPro;
 public class Timer : MonoBehaviour
 {
     [SerializeField] private float timeToEnd = 60f;
+    [SerializeField] private bool isInfinity = false;
 
     private TMP_Text timerText;
     private float timer;
@@ -25,12 +26,10 @@ public class Timer : MonoBehaviour
     private void Start()
     {
         ResetTimer();
-        //DelayBeforeStart();
     }
 
     public void DelayBeforeStart()
     {
-        //StopAllCoroutines();
         StartCoroutine(DelayBeforeStartCoroutine());
     }
 
@@ -59,24 +58,20 @@ public class Timer : MonoBehaviour
 
         if (isTimerOn)
         {
-            if (timer < 0f)
+            if (!isInfinity)
             {
-                OnTimerEnd();
+                if (timer < 0f)
+                {
+                    OnTimerEnd();
+                }
+                timer -= Time.fixedDeltaTime;
+                UpdateHud();
             }
-            timer -= Time.fixedDeltaTime;
-            UpdateHud();
+            else
+            {
+                timer = 1f;
+            }
         }
-
-        // if (Input.GetMouseButtonDown(0))
-        // {
-        //     StartTimer();
-        // }
-
-        // if (Input.GetMouseButtonDown(1))
-        // {
-        //     ResetTimer();
-        // }
-
     }
 
     private void UpdateHud()
@@ -90,5 +85,10 @@ public class Timer : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(2f);
         StartTimer();
+    }
+
+    private void OnDestroy()
+    {
+        OnTimerEnd -= StopTimer;
     }
 }
